@@ -6,10 +6,12 @@ import initWebRoutes from "./routes/web";
 
 const app = express();
 
-viewEngine(app);
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+viewEngine(app);
 
 initWebRoutes(app);
 

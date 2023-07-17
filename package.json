@@ -4,7 +4,7 @@
   "description": "messenger chatbot",
   "main": "server.js",
   "scripts": {
-    "build": "npx babel src -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec babel-node src/server.js"
   },
   "author": "GSYNC IT TEAM",

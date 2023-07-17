@@ -4,7 +4,7 @@
   "description": "messenger chatbot",
   "main": "server.js",
   "scripts": {
-    "build": "npx ./node_modules/.bin/babel src -d dist",
+    "build": "npx babel src -d dist",
     "start": "nodemon --exec babel-node src/server.js"
   },
   "author": "GSYNC IT TEAM",

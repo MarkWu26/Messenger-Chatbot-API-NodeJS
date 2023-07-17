@@ -6,10 +6,7 @@ const test = (req, res) => {
     return res.send("Welcome to messenger chatbot")
 }
 
-
-
 const getWebhook = (req, res) => {
-    console.log("Webhook Im working")
     const YOUR_VERIFY_TOKEN = process.env.YOUR_VERIFY_TOKEN;
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
@@ -26,9 +23,7 @@ const getWebhook = (req, res) => {
 }
 
 const postWebhook = (req, res) => {
-    console.log("Im working")
     const body = req.body;
-    
     if (body.object === "page") {
         body.entry.forEach(function(entry) {
             const webhookEvent = entry.messaging[0];
@@ -40,44 +35,32 @@ const postWebhook = (req, res) => {
         if(webhookEvent.message){
             handleMessage(sender_psid, webhookEvent.message);
         }
-
         });
-
         res.status(200).send('EVENT RECEIVED');
     } else {
         res.sendStatus(404)
     }
-
 }
 
-// Handles messages events
+
 const handleMessage = (sender_psid, received_message) => {
-
-    console.log("handling message....");
-
     let response;
-
-    if(received_message.text){
+    if (received_message.text){
         response = {
             "text": `You sent the message: "${received_message.text}".  `
         }
     }
-
     callSendAPI(sender_psid, response)
-
 }
 
-// Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
 
-}
+
 
 // Sends response messages via the Send API
 const callSendAPI = (sender_psid, response) => {
-
-    console.log("sending back message");
+    console.log("trying to send message!")
     
-    const PAGE_ACCESS_TOKEN = process.env.NEWPAGETOKEN
+  
 
   let request_body ={
     "recipient": {
@@ -88,7 +71,7 @@ const callSendAPI = (sender_psid, response) => {
 
   request({
     "uri": "https://graph.facebook.com/v17.0/me/messages",
-    "qs": { "access_token": PAGE_ACCESS_TOKEN},
+    "qs": { "access_token": process.env.VERIFY_ACCESS_TOKEN},
     "method": "POST",
     "json": request_body
   }, (err, res, body) => {
@@ -98,8 +81,6 @@ const callSendAPI = (sender_psid, response) => {
       console.error("Unable to send message:" + err);
     }
   }); 
-
-
 }
 
 module.exports = {

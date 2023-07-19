@@ -1,0 +1,40 @@
+ {
+ "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+            "elements": [
+                {
+                    "title": "What types of services do GSYNC Solutions offer?",
+                    "buttons": [
+                        {
+                            "type": "postback",
+                            "title": "Our Services",
+                            "payload": "our services"
+                            }
+                    ]
+                },
+                {
+                    "title": "Does GSYNC Solutions support online payment?",
+                    "buttons": [
+                        {
+                            "type": "postback",
+                            "title": "Online Payment",
+                            "payload": "online payment"
+                            }
+                    ]
+                },
+                {
+                    "title": "Who are the partners of GSYNC Solutions?",
+                    "buttons": [
+                        {
+                            "type": "postback",
+                            "title": "Partnered Companies",
+                            "payload": "partnered companies"
+                            }
+                    ]
+                }
+            ]
+        }
+    }
+ }    

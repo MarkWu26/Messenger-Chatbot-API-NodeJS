@@ -1,0 +1,40 @@
+{
+    "attachment": {
+        "type": "template",
+        "payload": {
+            "template_type": "generic",
+       "elements": [
+            {
+                "title": "What is the nature of business of GSYNC Solutions?",
+                "buttons": [
+                {
+                    "type": "postback",
+                    "title": "Nature of Business",
+                    "payload": "nature of business"
+                  }
+                ]
+            },
+            {
+                "title": "What is the vision and mission of GSYNC Solutions",
+                "buttons": [
+                  {
+                    "type": "postback",
+                    "title": "Vision and Mission",
+                    "payload": "vision and mission"
+                  }
+                ]
+            },
+            {
+                "title": "How GSYNC Solutions started and who founded it?",
+                "buttons": [
+                    {
+                        "type": "postback",
+                        "title": "History and Founder",
+                        "payload": "history"
+                    }
+                ]
+            }
+        ]
+    }
+}
+}

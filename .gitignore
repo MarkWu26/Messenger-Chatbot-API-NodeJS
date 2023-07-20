@@ -3,3 +3,12 @@ node_modules
 .env
 .vercel
 .vercel
+<<<<<<< HEAD
+=======
+dist
+# Local Netlify folder
+.netlify
+.vercel
+
+.vercel
+>>>>>>> origin/master

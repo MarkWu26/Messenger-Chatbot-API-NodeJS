@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+require('dotenv').config();
+>>>>>>> origin/master
 import express from "express";
 import bodyParser from "body-parser";
 import viewEngine from "./config/viewEngine";
@@ -6,8 +10,11 @@ import initWebRoutes from "./routes/web";
 
 const app = express();
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/master
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 

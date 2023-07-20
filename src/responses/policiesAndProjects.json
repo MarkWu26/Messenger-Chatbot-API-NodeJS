@@ -1,0 +1,30 @@
+{
+    "attachment": {
+        "type": "template",
+        "payload": {
+            "template_type": "generic",
+       "elements": [
+            {
+                "title": "What are the policies that we follow?",
+                "buttons": [
+                    {
+                        "type": "postback",
+                        "title": "Business Policies",
+                        "payload": "policy"
+                      }
+                ]
+            },
+            {
+                "title": "What are the accomplished projects of GYSNC Solutions?",
+                "buttons": [
+                    {
+                        "type": "postback",
+                        "title": "Accomplished Projects",
+                        "payload": "accomplished projects"
+                      }
+                ]
+            }
+        ]
+    }
+}
+}

@@ -2,16 +2,6 @@ require("dotenv").config();
 
 import request from "request";
 
-<<<<<<< HEAD
-const test = (req, res) => {
-    return res.send("Welcome to messenger chatbot")
-}
-
-
-
-const getWebhook = (req, res) => {
-    console.log("Webhook Im working")
-=======
 let isPersistentMenuSet = false;
 
 const callMessengerAPI = async (request_body) => {
@@ -68,7 +58,6 @@ const homePage = (req, res) => {
 }
 
 const getWebhook = (req, res) => {
->>>>>>> origin/master
     const YOUR_VERIFY_TOKEN = process.env.YOUR_VERIFY_TOKEN;
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
@@ -85,13 +74,7 @@ const getWebhook = (req, res) => {
 }
 
 const postWebhook = (req, res) => {
-<<<<<<< HEAD
-    console.log("Im working")
     const body = req.body;
-    
-=======
-    const body = req.body;
->>>>>>> origin/master
     if (body.object === "page") {
         body.entry.forEach(function(entry) {
             const webhookEvent = entry.messaging[0];
@@ -100,29 +83,6 @@ const postWebhook = (req, res) => {
         const sender_psid = webhookEvent.sender.id;
         console.log(`sender Id: ${sender_psid}`);
 
-<<<<<<< HEAD
-        if(webhookEvent.message){
-            handleMessage(sender_psid, webhookEvent.message);
-        }
-
-        });
-
-        res.status(200).send('EVENT RECEIVED');
-    } else {
-        res.sendStatus(404)
-    }
-
-}
-
-// Handles messages events
-const handleMessage = (sender_psid, received_message) => {
-
-    console.log("handling message....");
-
-    let response;
-
-    if(received_message.text){
-=======
         // Call setPersistentMenu initially
       if (isPersistentMenuSet === false) {
         setPersistentMenu();
@@ -542,29 +502,12 @@ const aboutButtons = (sender_psid) =>{
 const handleMessage = (sender_psid, received_message) => {
     let response;
     if (received_message.text){
->>>>>>> origin/master
         response = {
             "text": `You sent the message: "${received_message.text}".  `
         }
     }
 
     callSendAPI(sender_psid, response)
-<<<<<<< HEAD
-
-}
-
-// Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
-
-}
-
-// Sends response messages via the Send API
-const callSendAPI = (sender_psid, response) => {
-
-    console.log("sending back message");
-    
-    const PAGE_ACCESS_TOKEN = process.env.NEWPAGETOKEN
-=======
 }
 
 
@@ -573,7 +516,6 @@ const callSendAPI = (sender_psid, response) => {
 // Sends response messages via the Send API
 const callSendAPI = (sender_psid, response) => {
     console.log("trying to send message!")
->>>>>>> origin/master
 
   let request_body ={
     "recipient": {
@@ -582,16 +524,10 @@ const callSendAPI = (sender_psid, response) => {
     "message": response
   }
 
-<<<<<<< HEAD
-  request({
-    "uri": "https://graph.facebook.com/v17.0/me/messages",
-    "qs": { "access_token": PAGE_ACCESS_TOKEN},
-=======
   
     request({
     "uri": "https://graph.facebook.com/v17.0/me/messages",
     "qs": { "access_token": process.env.VERIFY_ACCESS_TOKEN},
->>>>>>> origin/master
     "method": "POST",
     "json": request_body
   }, (err, res, body) => {
@@ -600,25 +536,16 @@ const callSendAPI = (sender_psid, response) => {
     } else {
       console.error("Unable to send message:" + err);
     }
-<<<<<<< HEAD
-  }); 
-=======
   });   
 
->>>>>>> origin/master
 
 
 }
 
-<<<<<<< HEAD
-module.exports = {
-    test:test,
-=======
  
 
 module.exports = {
     homePage:homePage,
->>>>>>> origin/master
     getWebhook:getWebhook,
     postWebhook:postWebhook
 };

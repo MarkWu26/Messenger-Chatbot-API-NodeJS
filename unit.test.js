@@ -1,139 +1,119 @@
-// Import the functions to be tested
-const {
-    handleMessage,
-    handlePostBack,
-    callSendAPI,
-    fetchWithExponentialBackoff,
-  } = require('./your_file_name_containing_functions.js'); // Replace 'your_file_name_containing_functions.js' with the actual filename
-  
-  // Mock the fetch function to avoid actual API calls during testing
-  jest.mock('node-fetch');
-  
-  // Mock the setTimeout function to avoid actual waiting during testing
-  jest.useFakeTimers();
-  
-  // Test handleMessage function
-  describe('handleMessage function', () => {
-    test('should handle message with valid keywords', () => {
-      const sender_psid = 'PSID123';
-      const message = { text: 'about us' };
-      const expectedResponse = {
-        text: 'Response for about us',
-      };
-      const callSendAPI = jest.fn();
-      handleMessage(sender_psid, message, callSendAPI);
-      expect(callSendAPI).toHaveBeenCalledWith(sender_psid, expectedResponse);
-    });
-  
-    test('should handle message with invalid keywords', () => {
-      const sender_psid = 'PSID123';
-      const message = { text: 'invalid keyword' };
-      const expectedResponse = {
-        text: 'Sorry, we could not understand your inquiry.',
-      };
-      const callSendAPI = jest.fn();
-      handleMessage(sender_psid, message, callSendAPI);
-      expect(callSendAPI).toHaveBeenCalledWith(sender_psid, expectedResponse);
-    });
+const chatbot = require('./src/controllers/newChatbotController');
+const fetch = require('node-fetch');
+
+jest.mock('node-fetch');
+
+describe('Chatbot Unit Tests', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
-  
-  // Test handlePostBack function
-  describe('handlePostBack function', () => {
-    test('should handle postback with valid payload', () => {
-      const sender_psid = 'PSID123';
-      const postback = { payload: 'about us' };
-      const expectedResponse = {
-        text: 'Response for about us',
-      };
-      const callSendAPI = jest.fn();
-      handlePostBack(sender_psid, postback, callSendAPI);
-      expect(callSendAPI).toHaveBeenCalledWith(sender_psid, expectedResponse);
+
+  it('should set Get Started button', async () => {
+    // Mock the response for the setGetStartedButton API call
+    const mockResponse = { result: 'success' };
+    const mockFetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockResponse),
     });
-  
-    test('should handle postback with invalid payload', () => {
-      const sender_psid = 'PSID123';
-      const postback = { payload: 'invalid payload' };
-      const expectedResponse = {
-        text: 'Sorry, we could not understand your inquiry.',
-      };
-      const callSendAPI = jest.fn();
-      handlePostBack(sender_psid, postback, callSendAPI);
-      expect(callSendAPI).toHaveBeenCalledWith(sender_psid, expectedResponse);
-    });
+    require('node-fetch').default = mockFetch;
+
+    // Call the function
+    await chatbot.setGetStartedButton();
+
+    // Assertions
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('https://graph.facebook.com/'),
+      expect.any(Object)
+    );
   });
-  
-  // Test callSendAPI function
-  describe('callSendAPI function', () => {
-    test('should call the Send API with correct parameters', async () => {
-      const sender_psid = 'PSID123';
-      const response = { text: 'This is a test response' };
-      const VERIFY_ACCESS_TOKEN = 'YOUR_VERIFY_ACCESS_TOKEN'; // Replace with the actual access token
-      require('node-fetch').mockResolvedValueOnce({ json: () => Promise.resolve({}) });
-  
-      // Call the actual function
-      await callSendAPI(sender_psid, response, VERIFY_ACCESS_TOKEN);
-  
-      // Add your assertions here to check if the Send API was called correctly
-      expect(fetch).toHaveBeenCalledTimes(1);
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('https://graph.facebook.com/v17.0/me/messages?access_token='),
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            recipient: {
-              id: sender_psid,
-            },
-            message: response,
-          }),
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+
+  it('should refresh ping successfully', async () => {
+    // Mock the response for the refreshPing API call
+    const mockResponse = { id: '12345' };
+    const mockFetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockResponse),
     });
+    require('node-fetch').default = mockFetch;
+
+    // Call the function
+    await chatbot.refreshPing();
+
+    // Assertions
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('https://graph.facebook.com/'),
+      expect.any(Object)
+    );
   });
-  
-  // Test fetchWithExponentialBackoff function
-  describe('fetchWithExponentialBackoff function', () => {
-    test('should retry fetch with exponential backoff on timeout', async () => {
-      require('node-fetch').mockRejectedValueOnce({ type: 'request-timeout', code: 'UND_ERR_CONNECT_TIMEOUT' });
-  
-      // Call the actual function with maxRetries = 3 and a delay of 1000 ms
-      const promise = fetchWithExponentialBackoff('http://example.com', {}, 3);
-      jest.advanceTimersByTime(1000); // Advance the timer by 1000 ms
-  
-      // Expect a delay of 2000 ms and then another fetch attempt
-      await expect(promise).resolves.toEqual({}); // Mocked empty response
-  
-      jest.advanceTimersByTime(2000); // Advance the timer by 2000 ms (total 3000 ms)
-  
-      // Expect another fetch attempt
-      await expect(promise).resolves.toEqual({}); // Mocked empty response
-  
-      jest.advanceTimersByTime(4000); // Advance the timer by 4000 ms (total 7000 ms)
-  
-      // Expect the final fetch attempt
-      await expect(promise).resolves.toEqual({}); // Mocked empty response
-  
-      // After maxRetries, expect a rejection
-      await expect(promise).rejects.toThrow('Exceeded maximum retries for API Call');
+
+  it('should fail to refresh ping and retry', async () => {
+    // Mock the response for the refreshPing API call
+    const mockError = { code: 'ETIMEDOUT', syscall: 'write' };
+    const mockFetch = jest.fn().mockRejectedValueOnce(mockError).mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValue({ id: '12345' }),
     });
-  
-    test('should reject immediately on non-timeout errors', async () => {
-      require('node-fetch').mockRejectedValueOnce(new Error('Some other error'));
-  
-      // Call the actual function with maxRetries = 3 and a delay of 1000 ms
-      const promise = fetchWithExponentialBackoff('http://example.com', {}, 3);
-  
-      // Expect an immediate rejection
-      await expect(promise).rejects.toThrow('Some other error');
-    });
-  
-    test('should resolve immediately on successful fetch', async () => {
-      require('node-fetch').mockResolvedValueOnce({ json: () => Promise.resolve({}) });
-  
-      // Call the actual function with maxRetries = 3 and a delay of 1000 ms
-      const promise = fetchWithExponentialBackoff('http://example.com', {}, 3);
-  
-      // Expect an immediate resolution
-      await expect(promise).resolves.toEqual({}); // Mocked empty response
-    });
-  });  
+    require('node-fetch').default = mockFetch;
+
+    // Call the function
+    await chatbot.refreshPing();
+
+    // Assertions
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.stringContaining('https://graph.facebook.com/'),
+      expect.any(Object)
+    );
+  });
+
+  it('should set the persistent menu', async () => {
+    // Mock the response for the callMessengerAPI function
+    const mockResponse = { success: true };
+    const mockCallMessengerAPI = jest.fn().mockResolvedValue(mockResponse);
+    chatbot.callMessengerAPI = mockCallMessengerAPI;
+
+    // Call the function
+    chatbot.setPersistentMenu();
+
+    // Assertions
+    expect(mockCallMessengerAPI).toHaveBeenCalledTimes(1);
+    expect(mockCallMessengerAPI).toHaveBeenCalledWith(expect.any(Object));
+  });
+
+  it('should handle a valid postback payload', async () => {
+    const sender_psid = '12345';
+    const postback = {
+      payload: 'about us',
+    };
+
+    // Mock the callSendAPI function
+    const mockResponse = { success: true };
+    const mockCallSendAPI = jest.fn().mockResolvedValue(mockResponse);
+    chatbot.callSendAPI = mockCallSendAPI;
+
+    // Call the handlePostBack function
+    await chatbot.handlePostBack(sender_psid, postback);
+
+    // Assertions
+    expect(mockCallSendAPI).toHaveBeenCalledTimes(1);
+    expect(mockCallSendAPI).toHaveBeenCalledWith(sender_psid, expect.any(Object));
+  });
+
+  it('should handle a valid message', async () => {
+    const sender_psid = '12345';
+    const message = {
+      text: 'Hello',
+    };
+
+    // Mock the callSendAPI function
+    const mockResponse = { success: true };
+    const mockCallSendAPI = jest.fn().mockResolvedValue(mockResponse);
+    chatbot.callSendAPI = mockCallSendAPI;
+
+    // Call the handleMessage function
+    await chatbot.handleMessage(sender_psid, message);
+
+    // Assertions
+    expect(mockCallSendAPI).toHaveBeenCalledTimes(1);
+    expect(mockCallSendAPI).toHaveBeenCalledWith(sender_psid, expect.any(Object));
+  });
+});

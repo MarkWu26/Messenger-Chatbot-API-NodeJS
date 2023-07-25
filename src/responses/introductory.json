@@ -1,0 +1,26 @@
+{
+    "attachment": {
+        "type": "template",
+        "payload": {
+            "template_type": "button",
+            "text": "Welcome to GSYNC Solutions Philippines!\n\nIf you have any other questions or need immediate support, please feel free to contact us:\n\nContact Numbers: \n+63 917 148 5103\n+63 917 544 9777\n+63 977 692 5903\n\nLandline Numbers:\n+63 54 8810167\n+63 46 2310601\n\nEmail Address:\nyourfriends@GSYNC.solutions\nGSYNC.solutions.ph@outlook.com\n\nFor further assistance, please select one of the options below: \n",
+            "buttons" : [
+                {
+                    "type": "postback",
+                    "title": "About Us",
+                    "payload": "about us"
+                },
+                {
+                    "type": "postback",
+                    "title": "Services",
+                    "payload": "services"
+                },
+                {
+                    "type": "postback",
+                    "title": "Policies and Projects",
+                    "payload": "policies and projects"
+                }
+            ]
+        }
+    }
+}

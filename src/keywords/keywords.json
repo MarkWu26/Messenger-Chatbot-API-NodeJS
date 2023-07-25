@@ -1,0 +1,15 @@
+{
+    "aboutKeyword" : ["about"],
+    "serviceKeyword": ["service", "services"],
+    "policyProjKeywords": ["policies", "projects", "project"],
+    "thankyouKeyword" :["thank you", "thank", "thankyou", "thanks", "salamat", "tenx", "thanz", "thankz", "tenks", "thank you so much"],
+    "hiringKeyword" : ["ojt", "accepting", "hiring", "looking", "available", "hire", "opening", "open", "accept", "apply", "applying", "tanggap", "tumatanggap"],
+    "howMuchKeyword" : ["how much", "price", "magkano"],
+    "jobKeyword" : ["job", "jobs", "job opportunities", "seeking for job", "looking for job", "seeking for a job", "looking for a job", "full-time", "part-time", "full time", "part time"],
+    "wfhKeyword" : ["virtual", "wfh", "work from home", "work-from-home", "online"],
+    "supervisorKeyword" : ["supervisor", "executive", "executives"],
+    "greetingKeyword" : ["hi", "hello", "wassup", "good day", "good afternoon", "good morning", "kumusta", "goodafternoon", "goodmorning", "goodday", "hey", "a pleasant day", "hola", "morning", "good evening", "greetings"],
+    "affirmativeKeyword" : ["okay", "noted", "ok", "alright", "roger", "copy", "roger that", "copy that", "oki", "okie", "sige"],
+    "locationKeyword" : ["located", "locations", "location", "locate", "locating", "situated"],
+    "contactKeyword" : ["contact", "email", "address"]
+}

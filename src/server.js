@@ -5,6 +5,7 @@ import viewEngine from "./config/viewEngine";
 import initWebRoutes from "./routes/web";
 
 
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -15,6 +16,8 @@ viewEngine(app);
 initWebRoutes(app);
 
 const port = process.env.PORT || 8080;
+
+module.exports = app;
 
 
 app.listen(port, ()=>{

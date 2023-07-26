@@ -11,5 +11,6 @@
     "greetingKeyword" : ["hi", "hello", "wassup", "good day", "good afternoon", "good morning", "kumusta", "goodafternoon", "goodmorning", "goodday", "hey", "a pleasant day", "hola", "morning", "good evening", "greetings"],
     "affirmativeKeyword" : ["okay", "noted", "ok", "alright", "roger", "copy", "roger that", "copy that", "oki", "okie", "sige"],
     "locationKeyword" : ["located", "locations", "location", "locate", "locating", "situated"],
-    "contactKeyword" : ["contact", "email", "address"]
+    "contactKeyword" : ["contact", "email", "address"],
+    "concernKeyword" : ["problem", "concern", "issue", "encounter", "help", "problema"]
 }

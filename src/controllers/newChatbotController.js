@@ -233,7 +233,7 @@ const handlePostBack = (sender_psid, received_postback) => {
 
         break;
 
-        case "our services":
+        case "our services":    
         response = ourServices;
         break;
 

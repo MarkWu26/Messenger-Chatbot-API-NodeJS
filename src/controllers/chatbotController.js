@@ -371,6 +371,11 @@ const handleMessage = async (sender_psid, received_message) => {
                     "text": "You May contact us at:\n\nContact Numbers: \n+63 917 148 5103\n+63 917 544 9777\n+63 977 692 5903\n\nLandline Numbers:\n+63 54 8810167\n+63 46 2310601\n\nEmail Address:\nyourfriends@GSYNC.solutions\nGSYNC.solutions.ph@outlook.com\n\nGSYNC Solutions Philippines is located at:\n\n8 Santol St, Liboton\n\nNaga City, Philippines 4400"
                 }
             }
+            else if(checkKeyWord(keywords.concernKeyword)){
+                response = {
+                    "text": "This is noted.\nWe will forward you to our customer support to further asssist you with your concerns."
+                }
+            }
             else{
                 response={
                     "text": "Sorry, we could not understand your inquiry."

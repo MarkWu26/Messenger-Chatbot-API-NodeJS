@@ -84,7 +84,5 @@ const callSendAPI = (sender_psid, response) => {
 }
 
 module.exports = {
-    test:test,
     getWebhook:getWebhook,
-    postWebhook:postWebhook
 };

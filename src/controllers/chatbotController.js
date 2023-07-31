@@ -14,6 +14,7 @@ import history from "../responses/history.json"
 import introductory from "../responses/introductory.json"
 import keywords from "../keywords/keywords.json"
 
+
 const setGetStartedButton = async()=>{
     try {
         const PAGE_ACCESS_TOKEN = process.env.VERIFY_ACCESS_TOKEN;
@@ -131,20 +132,26 @@ const homePage = (req, res) => {
 }
 
 const getWebhook = (req, res) => {
-    const YOUR_VERIFY_TOKEN = process.env.YOUR_VERIFY_TOKEN;
-    const mode = req.query['hub.mode'];
-    const token = req.query['hub.verify_token'];
-    const challenge = req.query['hub.challenge']; // "challenge"
 
-    if (mode && token) {
-        if (mode === 'subscribe' && token === YOUR_VERIFY_TOKEN) {
-            console.log("Webhook is verified yehey!")
-            res.status(200).send(challenge)
+        const YOUR_VERIFY_TOKEN = process.env.YOUR_VERIFY_TOKEN;
+        const mode = req.query['hub.mode'];
+        const token = req.query['hub.verify_token'];
+        const challenge = req.query['hub.challenge']; // "challenge"
+    
+        if (mode && token) {
+            if (mode === 'subscribe' && token === YOUR_VERIFY_TOKEN) {
+                console.log("Webhook is verified yehey!")
+                res.status(200).send(challenge)
+            } 
+            else {
+                res.sendStatus(403).send("incorrect Verify Token")
+            }
         } 
-    } else {
-        res.sendStatus(403)
+        else{
+            res.sendStatus(403).send("Missing mode and token")
+        }
     }
-}
+  
 
 const postWebhook = async (req, res) => {
 
@@ -373,8 +380,9 @@ const handleMessage = async (sender_psid, received_message) => {
             }
             else if(checkKeyWord(keywords.concernKeyword)){
                 response = {
-                    "text": "This is noted.\nWe will forward you to our customer support to further asssist you with your concerns."
+                    "text": "To better assist you with your concerns, we kindly request your mobile number.\n\nOne of our friendly personnel will reach out to you shortly to provide all the details you need. Your contact information will be treated with utmost confidentiality."
                 }
+    
             }
             else{
                 response={
@@ -390,6 +398,8 @@ const handleMessage = async (sender_psid, received_message) => {
     }
       
 }
+
+
 
 const fetchWithExponentialBackoff = async (url, options, maxRetries =3) =>{
     let retries = 0;
@@ -444,5 +454,6 @@ const fetchWithExponentialBackoff = async (url, options, maxRetries =3) =>{
 module.exports = {
     homePage:homePage,
     getWebhook:getWebhook,
-    postWebhook:postWebhook
+    postWebhook:postWebhook,
+    handleMessage:handleMessage
 };

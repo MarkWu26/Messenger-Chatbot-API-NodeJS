@@ -39,7 +39,7 @@ const setGetStartedButton = async()=>{
 
 setGetStartedButton();
 
-const refreshPing = async () =>{
+const refreshPing = async () =>{ //refresh the ping of server to keep it awake
         console.log("refreshing ping")
         try{
            
@@ -136,7 +136,7 @@ const getWebhook = (req, res) => {
         const YOUR_VERIFY_TOKEN = process.env.YOUR_VERIFY_TOKEN;
         const mode = req.query['hub.mode'];
         const token = req.query['hub.verify_token'];
-        const challenge = req.query['hub.challenge']; // "challenge"
+        const challenge = req.query['hub.challenge']; // "CHALLENGE_ACCEPTED"
     
         if (mode && token) {
             if (mode === 'subscribe' && token === YOUR_VERIFY_TOKEN) {
@@ -150,7 +150,7 @@ const getWebhook = (req, res) => {
         else{
             res.sendStatus(403).send("Missing mode and token")
         }
-    }
+}
   
 
 const postWebhook = async (req, res) => {
@@ -193,9 +193,7 @@ const postWebhook = async (req, res) => {
 
 const handlePostBack = async (sender_psid, received_postback) => {
     const payload = received_postback.payload
-
     let response;
-
     try{
         switch(payload){
             case "about us": 
@@ -214,8 +212,7 @@ const handlePostBack = async (sender_psid, received_postback) => {
                 response = history;
             break;
     
-            //main category services
-            case "services": 
+            case "services":  //main category services
             response = services;
             break;
     
@@ -231,8 +228,7 @@ const handlePostBack = async (sender_psid, received_postback) => {
                 response = partneredCompanies
             break;
             
-            //main category for policies and projects
-            case "policies and projects":
+            case "policies and projects":  //main category for policies and projects
             response = policiesAndProjects;
             break;
     
@@ -252,8 +248,7 @@ const handlePostBack = async (sender_psid, received_postback) => {
                 response = introductory;
             break;
         }
-        await callSendAPI(sender_psid, response)
-
+        await callSendAPI(sender_psid, response);
     }
     catch(err){
         console.err(err);

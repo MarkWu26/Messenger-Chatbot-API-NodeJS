@@ -1,17 +1,6 @@
 require("dotenv").config();
 
-import aboutUs from "../responses/aboutUs.json"
-import natureOfBusiness from "../responses/natureOfBusiness.json"
-import policiesAndProjects from "../responses/policiesAndProjects.json"
-import visionAndMission from "../responses/visionAndMission.json"
-import ourServices from "../responses/ourServices.json"
-import onlinePayment from "../responses/onlinePayment.json"
-import partneredCompanies from "../responses/partneredCompanies.json"
-import policy from "../responses/policy.json"
-import services from "../responses/services.json"
-import accomplishedProjects from "../responses/accomplishedProjects.json"
-import history from "../responses/history.json"
-import introductory from "../responses/introductory.json"
+import responses from "../responses/responses.json"
 import keywords from "../keywords/keywords.json"
 
 
@@ -197,61 +186,61 @@ const handlePostBack = async (sender_psid, received_postback) => {
     try{
         switch(payload){
             case "about us": 
-            response = aboutUs;
+            response = responses.aboutUs;
             break;
     
             case "nature of business":
-                response = natureOfBusiness;
+                response = responses.natureOfBusiness;
             break;
     
             case "vision and mission":
-                response = visionAndMission;
+                response = responses.visionAndMission;
                 break;
     
             case "history":
-                response = history;
+                response = responses.history;
             break;
     
             case "services":  //main category services
-            response = services;
+            response = responses.services;
             break;
     
             case "our services":
-            response = ourServices;
+            response = responses.ourServices;
             break;
     
             case "online payment":
-                response = onlinePayment;
+                response = responses.onlinePayment;
             break;
     
             case "partnered companies":
-                response = partneredCompanies
+                response = responses.partneredCompanies
             break;
             
             case "policies and projects":  //main category for policies and projects
-            response = policiesAndProjects;
+            response = responses.policiesAndProjects;
             break;
     
             case "policy":
-                response = policy;
+                response = responses.policy;
             break;
     
             case "accomplished projects":
-                response = accomplishedProjects;
+                response = responses.accomplishedProjects;
             break;
 
             case "GET_STARTED_PAYLOAD":
-                response = introductory;
+                response = responses.introductory;
             break;
     
             default:
-                response = introductory;
+                response = responses.introductory;
             break;
         }
         await callSendAPI(sender_psid, response);
     }
     catch(err){
-        console.err(err);
+        console.error(err);
         res.sendStatus(404);
     }
 }
@@ -269,7 +258,6 @@ const handleMessage = async (sender_psid, received_message) => {
             const checkKeyWord = (keywords) =>{
                 return keywords.some(keyword =>  Message.includes(keyword))
             }
-
             //check if user has sent a mobile phone number
             if(regex.test(Message) || regexplus.test(Message)){
                 response = {
@@ -284,15 +272,15 @@ const handleMessage = async (sender_psid, received_message) => {
             }
             //about keywords
             else if(checkKeyWord(keywords.aboutKeyword)){
-                response = aboutUs;
+                response = responses.aboutUs;
             }
             //services keywords
             else if(checkKeyWord(keywords.serviceKeyword)){
-                response = services;
+                response = responses.services;
             }
             //policy and projects
             else if(checkKeyWord(keywords.policyProjKeywords)){
-                response = policiesAndProjects
+                response = responses.policiesAndProjects
             }
             //thank you keywords
             else if(checkKeyWord(keywords.thankyouKeyword)){
@@ -325,7 +313,7 @@ const handleMessage = async (sender_psid, received_message) => {
             // supervisor keywords
             else if(checkKeyWord(keywords.supervisorKeyword)){
                 response ={
-                    "text": "Here are the contact details of the Operations Supervisor:\n\nMs. Lara G. Zafranco\nOperations Supervisor, GSYNC Solutions Philippines\n0969 315 3363\nlgzafranco.gsync@gmail.com"
+                    "text": "Here are the contact details of the Operations Supervisor:\n\nMr. Rogerio G. Espiritu\nOperations Supervisor, GSYNC Solutions Philippines\n0969 315 3363\njettespiritu@gsync.solutions"
                 }
             } // greeting keywords
             else if (checkKeyWord(keywords.greetingKeyword)){
@@ -360,8 +348,8 @@ const handleMessage = async (sender_psid, received_message) => {
                         }
                     }
                 }
-                }
-                //location keywords
+            }
+            //location keywords
             else if (checkKeyWord(keywords.locationKeyword)){
                 response = {
                     "text": "GSYNC Solutions Philippines is located at:\n\n8 Santol St, Liboton\n\nNaga City, Philippines 4400\n\nYou may also contact us at:\n09171485103\nyourfriends@gsync.solutions"
@@ -377,7 +365,6 @@ const handleMessage = async (sender_psid, received_message) => {
                 response = {
                     "text": "To better assist you with your concerns, we kindly request your mobile number.\n\nOne of our friendly personnel will reach out to you shortly to provide all the details you need. Your contact information will be treated with utmost confidentiality."
                 }
-    
             }
             else{
                 response={
@@ -385,10 +372,10 @@ const handleMessage = async (sender_psid, received_message) => {
                 }
             }
         } 
-        await callSendAPI(sender_psid, response)
+        await callSendAPI(sender_psid, response);
     }
     catch(err){
-        console.err("Could not handle postmessage request due to:", err);
+        console.error("Could not handle postmessage request due to:", err);
         res.sendStatus(404);
     }
       
